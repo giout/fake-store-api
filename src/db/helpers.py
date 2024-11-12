@@ -2,8 +2,8 @@ import os
 
 # obtain a cursor right after executing a select query and return a dictionary with the result (using psycopg2 library)
 def parse_query_result(cursor):
-    result = []
     fields = [field_name.name for field_name in cursor.description]
+    result = []
     rows = cursor.fetchall()
     for row in rows:
         result.append(dict(zip(fields, row)))

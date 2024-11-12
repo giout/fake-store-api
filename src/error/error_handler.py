@@ -1,4 +1,5 @@
 from error import APIException
+from marshmallow import ValidationError
 
 # all errors will be handled with APIException, but it a non-APIException exception occurs, it will be returned a 400 error by default
 def api_error_handler(error):

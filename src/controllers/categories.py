@@ -1,6 +1,7 @@
-from flask import Blueprint, request, Response
+from flask import Blueprint, request
 from services import categories
 from utils import param_type
+from dto import UrlSchema
 
 # /categories
 category = Blueprint('category', __name__, url_prefix='/categories')
@@ -20,3 +21,11 @@ def get_all_categories():
         "limit": limit,
         "offset": offset
     } 
+
+# GET /categories/<id>
+@category.route('/<id>')
+def get_category_by_id(id):
+    UrlSchema().load({ "id": id }) #verify id is valid
+    return {
+        "data": categories.get_category_by_id(id) 
+    }
