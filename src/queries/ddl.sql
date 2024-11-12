@@ -1,4 +1,4 @@
-CREATE TABLE public.category (
+CREATE TABLE IF NOT EXISTS public.category (
 	category serial4 NOT NULL,
 	"name" varchar(100) NOT NULL,
 	image_url text NOT NULL,
@@ -6,7 +6,7 @@ CREATE TABLE public.category (
 	CONSTRAINT unq_category UNIQUE (name)
 );
 
-CREATE TABLE public.product (
+CREATE TABLE IF NOT EXISTS public.product (
 	product serial4 NOT NULL,
 	"name" varchar(100) NOT NULL,
 	description varchar(200) NOT NULL,
@@ -14,11 +14,11 @@ CREATE TABLE public.product (
 	image_url text NOT NULL,
 	category int4 NOT NULL,
 	CONSTRAINT product_pkey PRIMARY KEY (product),
-	CONSTRAINT unq_product UNIQUE (name)
+	CONSTRAINT unq_product UNIQUE (name),
+	CONSTRAINT product_category_fkey FOREIGN KEY (category) REFERENCES public.category(category) ON DELETE CASCADE
 );
-ALTER TABLE public.product ADD CONSTRAINT product_category_fkey FOREIGN KEY (category) REFERENCES public.category(category) ON DELETE CASCADE;
 
-CREATE TABLE public."user" (
+CREATE TABLE IF NOT EXISTS public."user" (
 	"user" serial4 NOT NULL,
 	"name" varchar(100) NOT NULL,
 	"password" varchar(200) NOT NULL,
