@@ -1,7 +1,7 @@
 from flask import Flask
 from config import PORT
 from controllers import category
-from error import api_error_handler
+from utils import api_error_handler
 
 app = Flask(__name__)
 

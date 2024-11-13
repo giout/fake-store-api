@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from services import categories
 from utils import param_type
-from dto import UrlSchema
+from dto import UrlSchema, CreateCategorySchema
 
 # /categories
 category = Blueprint('category', __name__, url_prefix='/categories')
@@ -28,4 +28,14 @@ def get_category_by_id(id):
     UrlSchema().load({ "id": id }) #verify id is valid
     return {
         "data": categories.get_category_by_id(id) 
+    }
+
+# POST /categories
+@category.route('/', methods=['POST'])
+def create_category():
+    body = request.json
+    CreateCategorySchema().load(body)
+    category = categories.create_category(body)
+    return {
+        "data": category
     }

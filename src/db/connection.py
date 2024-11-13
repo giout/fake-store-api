@@ -1,4 +1,4 @@
-import psycopg2
 from config import DB_URI
+from db.DbComponent import DbComponent
 
-connection = psycopg2.connect(DB_URI)
+db = DbComponent(DB_URI)
