@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from services import categories
+from services import categories, products
 from dto import UrlSchema, CreateCategorySchema
 
 # /categories
@@ -54,3 +54,20 @@ def delete_category(id):
     UrlSchema().load({"id": id}) # validate id
     categories.delete_category(id)
     return jsonify({})
+
+
+# GET /categories/<id>/products
+@category.route('/<id>/products')
+def get_products_by_category(id):
+    args = request.args
+    UrlSchema().load({"id": id}) # validate id
+    data = products.get_products_by_category(
+        id,
+        limit=args.get('limit', default=10, type=int),
+        offset=args.get('offset', default=0, type=int)
+    )
+    return jsonify({
+        "data": data,
+        "limit": args.get('limit', default=10, type=int),
+        "offset": args.get('offset', default=0, type=int),
+    })

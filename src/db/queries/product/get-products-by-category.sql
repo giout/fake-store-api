@@ -13,11 +13,7 @@ INNER JOIN
     category c
 ON 
     p.category=c.category
-WHERE 
-    p."name" iLIKE %s || '%%' -- name
-AND
-    (p.price > COALESCE(%s, p.price - 1)) -- price_min
-AND 
-    (p.price < COALESCE(%s, p.price + 1)) -- price_max 
-LIMIT %s
+WHERE   
+    p.category=%s
+LIMIT %s 
 OFFSET %s;
