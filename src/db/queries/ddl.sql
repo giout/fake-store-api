@@ -26,6 +26,7 @@ BEGIN;
 		"password" varchar(200) NOT NULL,
 		email varchar(200) NOT NULL,
 		image_url text NOT NULL,
+		CONSTRAINT unq_email UNIQUE (email),
 		CONSTRAINT user_pkey PRIMARY KEY ("user")
 	);
 COMMIT;
