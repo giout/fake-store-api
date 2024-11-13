@@ -14,7 +14,7 @@ def get_category_by_id(id):
 
 
 def create_category(payload):
-    # verify if there is a category with the same name
+    # verify if name exists
     query = db.read_sql(base_path+'get-category-by-name.sql')
     categories_found = db.execute_query(query, (payload['name'], ))
     if (len(categories_found) > 0):
@@ -29,21 +29,20 @@ def update_category(id, payload):
     # verify if category exists
     category_with_id = get_category_by_id(id)
     if (len(category_with_id) == 0):
-        raise APIException(f'Category with id {id} does not exist', 400)
+        raise APIException(f'Category with id {id} does not exist', 404)
 
-    # if name will be updated, verify if there is a category with the same name
-    if 'name' in payload:
-        query = db.read_sql(base_path+'get-category-by-name.sql')
-        categories_found = db.execute_query(query, (payload['name'],))
-        if (len(categories_found) > 0):
-            raise APIException(
-                f'Category {payload["name"]} already exists', 
-                400
-            )
-    
     # if attribute is not present in payload, use existing value
     name = payload.get('name', category_with_id[0]['name'])
     image_url = payload.get('image_url', category_with_id[0]['image_url'])
+
+    # verify if name is unique
+    query = db.read_sql(base_path+'verify-category-name.sql')
+    categories_found = db.execute_query(query, (name, id,))
+    if (len(categories_found) > 0):
+        raise APIException(
+            f'Category {name} already exists', 
+            400
+        )
 
     query = db.read_sql(base_path+'update-category.sql')
     return db.execute_query(query, (name, image_url, id,))
@@ -53,7 +52,7 @@ def delete_category(id):
     # verify if category exists
     category_with_id = get_category_by_id(id)
     if (len(category_with_id) == 0):
-        raise APIException(f'Category with id {id} does not exist', 400)
+        raise APIException(f'Category with id {id} does not exist', 404)
 
     query = db.read_sql(base_path+'delete-category.sql')
     return db.execute_query(query, (id,))

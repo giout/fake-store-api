@@ -9,18 +9,17 @@ product = Blueprint('product', __name__, url_prefix='/products')
 @product.route('/')
 def get_all_products():
     #query parameters
-    args = request.args  
     data = products.get_all_products(
-        price_min=args.get('price_min', default=None, type=float),
-        price_max=args.get('price_max', default=None, type=float),
-        name=args.get('name', default='', type=str),
-        limit=args.get('limit', default=10, type=int),
-        offset=args.get('offset', default=0, type=int)
+        price_min=request.args.get('price_min', default=None, type=float),
+        price_max=request.args.get('price_max', default=None, type=float),
+        name=request.args.get('name', default='', type=str),
+        limit=request.args.get('limit', default=10, type=int),
+        offset=request.args.get('offset', default=0, type=int)
     )
     return jsonify({ 
         "data": data, 
-        "limit": args.get('limit', default=10, type=int), 
-        "offset": args.get('offset', default=0, type=int) 
+        "limit": request.args.get('limit', default=10, type=int), 
+        "offset": request.args.get('offset', default=0, type=int) 
     })
 
 
@@ -35,7 +34,21 @@ def get_product_by_id(id):
 # POST /products
 @product.route('/', methods=['POST'])
 def create_product():
-    body = request.json
-    CreateProductSchema().load(body) # validate request body
-    data = products.create_product(body)
+    CreateProductSchema().load(request.json) # validate body
+    data = products.create_product(request.json)
     return jsonify({ "data": data }), 201
+
+
+@product.route('/<id>', methods=['PUT'])
+def update_product(id):
+    UrlSchema().load({ "id": id }) # validate path id
+    CreateProductSchema().load(request.json, partial=True) # validate body
+    products.update_product(id, request.json)
+    return jsonify({})
+
+
+@product.route('/<id>', methods=['DELETE'])
+def delete_product(id):
+    UrlSchema().load({ "id": id }) # validate path id
+    products.delete_product(id)
+    return jsonify({})

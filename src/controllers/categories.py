@@ -9,15 +9,14 @@ category = Blueprint('category', __name__, url_prefix='/categories')
 @category.route('/')
 def get_all_categories():
     #query parameters
-    args = request.args 
     data = categories.get_all_categories(
-        limit=args.get('limit', default=10, type=int), 
-        offset=args.get('offset', default=0, type=int)
+        limit=request.args.get('limit', default=10, type=int), 
+        offset=request.args.get('offset', default=0, type=int)
     )
     return jsonify({ 
         "data": data, 
-        "limit": args.get('limit', default=10, type=int), 
-        "offset": args.get('offset', default=0, type=int) 
+        "limit": request.args.get('limit', default=10, type=int), 
+        "offset": request.args.get('offset', default=0, type=int) 
     })
 
 
@@ -32,19 +31,17 @@ def get_category_by_id(id):
 # POST /categories
 @category.route('/', methods=['POST'])
 def create_category():
-    body = request.json
-    CreateProductSchema().load(body) # validate request body
-    data = categories.create_category(body)
+    CreateProductSchema().load(request.json) # validate body
+    data = categories.create_category(request.json)
     return jsonify({ "data": data }), 201
 
 
 # PUT /categories/<id>
 @category.route('/<id>', methods=['PUT'])
 def update_category(id):
-    body = request.json
     UrlSchema().load({"id": id}) # validate id
-    CreateProductSchema().load(body, partial=True) # validate request body
-    categories.update_category(id, body)
+    CreateProductSchema().load(request.json, partial=True) # validate body
+    categories.update_category(id, request.json)
     return jsonify({})
 
 
@@ -59,15 +56,14 @@ def delete_category(id):
 # GET /categories/<id>/products
 @category.route('/<id>/products')
 def get_products_by_category(id):
-    args = request.args
     UrlSchema().load({"id": id}) # validate id
     data = products.get_products_by_category(
         id,
-        limit=args.get('limit', default=10, type=int),
-        offset=args.get('offset', default=0, type=int)
+        limit=request.args.get('limit', default=10, type=int),
+        offset=request.args.get('offset', default=0, type=int)
     )
     return jsonify({
         "data": data,
-        "limit": args.get('limit', default=10, type=int),
-        "offset": args.get('offset', default=0, type=int),
+        "limit": request.args.get('limit', default=10, type=int),
+        "offset": request.args.get('offset', default=0, type=int),
     })
