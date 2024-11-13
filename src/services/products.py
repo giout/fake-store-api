@@ -17,3 +17,8 @@ def get_products_by_category(id, limit, offset):
     
     query = db.read_sql(base_path+'get-products-by-category.sql')
     return db.execute_query(query, (id, limit, offset,))
+
+
+def get_product_by_id(id): 
+    query = db.read_sql(base_path+'get-product-by-id.sql')
+    return db.execute_query(query, (id,))

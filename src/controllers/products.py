@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from services import products
+from dto import UrlSchema
 
 # /categories
 product = Blueprint('product', __name__, url_prefix='/products')
@@ -21,3 +22,11 @@ def get_all_products():
         "limit": args.get('limit', default=10, type=int), 
         "offset": args.get('offset', default=0, type=int) 
     })
+
+
+# GET /products/<id>
+@product.route('/<id>')
+def get_category_by_id(id):
+    UrlSchema().load({ "id": id }) # validate path id
+    data = products.get_product_by_id(id)
+    return jsonify({ "data": data })
