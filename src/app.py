@@ -1,12 +1,13 @@
 from flask import Flask
 from config import PORT
-from controllers import category
+from controllers import category, product
 from utils import api_error_handler
 
 app = Flask(__name__)
 
 # set routes
 app.register_blueprint(category) # /categories
+app.register_blueprint(product) # /products 
 
 # error handler
 app.register_error_handler(Exception, api_error_handler)

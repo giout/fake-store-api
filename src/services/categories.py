@@ -5,7 +5,7 @@ base_path = 'src/db/queries/category/'
 
 def get_all_categories(limit, offset):
     query = db.read_sql(base_path+'get-all-categories.sql')
-    return db.execute_query(query, (limit, offset))
+    return db.execute_query(query, (limit, offset,))
 
 
 def get_category_by_id(id): 

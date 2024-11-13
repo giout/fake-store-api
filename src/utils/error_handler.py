@@ -1,18 +1,14 @@
 from utils import APIException
-from flask import Response
-import json
+from flask import jsonify
+import traceback
+from werkzeug import exceptions
 
 # all errors will be handled with APIException, but it a non-APIException exception occurs, it will be returned a 400 error by default
-def api_error_handler(error):
+def api_error_handler(error: Exception):
+    print(traceback.format_exc())
     if isinstance(error, APIException):
-        res = {"message": error.message}
-        code = error.status_code
+        return jsonify({"message": error.message}), error.status_code
+    if isinstance(error, exceptions.NotFound):
+        return jsonify({"message": 'Endpoint not found' }), 404
     else:
-        res = {"message": error.args}
-        code = 400
-
-    return Response(
-        response=json.dumps(res), 
-        status=code, 
-        content_type=json
-    )        
+        return jsonify({"message": error.args}), 500
