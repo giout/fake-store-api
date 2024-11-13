@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from services import categories, products
-from dto import UrlSchema, CreateCategorySchema
+from dto import UrlSchema, CreateProductSchema
 
 # /categories
 category = Blueprint('category', __name__, url_prefix='/categories')
@@ -33,7 +33,7 @@ def get_category_by_id(id):
 @category.route('/', methods=['POST'])
 def create_category():
     body = request.json
-    CreateCategorySchema().load(body) # validate request body
+    CreateProductSchema().load(body) # validate request body
     data = categories.create_category(body)
     return jsonify({ "data": data }), 201
 
@@ -43,7 +43,7 @@ def create_category():
 def update_category(id):
     body = request.json
     UrlSchema().load({"id": id}) # validate id
-    CreateCategorySchema().load(body, partial=True) # validate request body
+    CreateProductSchema().load(body, partial=True) # validate request body
     categories.update_category(id, body)
     return jsonify({})
 
