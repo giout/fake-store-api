@@ -1,14 +1,18 @@
 from utils import APIException
+from flask import Response
+import json
 
 # all errors will be handled with APIException, but it a non-APIException exception occurs, it will be returned a 400 error by default
 def api_error_handler(error):
     if isinstance(error, APIException):
-        return {
-            "status_code": error.status_code,
-            "message": error.message
-        }
+        res = {"message": error.message}
+        code = error.status_code
     else:
-        return {
-            "status_code": 400,
-            "message": error.args
-        }        
+        res = {"message": error.args}
+        code = 400
+
+    return Response(
+        response=json.dumps(res), 
+        status=code, 
+        content_type=json
+    )        
