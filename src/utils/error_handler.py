@@ -10,5 +10,5 @@ def api_error_handler(error):
     else:
         return {
             "status_code": 400,
-            "message": str(error)
+            "message": error.args
         }        

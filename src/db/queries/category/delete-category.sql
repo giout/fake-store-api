@@ -1,0 +1,1 @@
+DELETE FROM category WHERE category = %s::integer;

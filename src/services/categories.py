@@ -34,7 +34,7 @@ def update_category(id, payload):
     # if name will be updated, verify if there is a category with the same name
     if 'name' in payload:
         query = db.read_sql(base_path+'get-category-by-name.sql')
-        categories_found = db.execute_query(query, (payload['name'], ))
+        categories_found = db.execute_query(query, (payload['name'],))
         if (len(categories_found) > 0):
             raise APIException(
                 f'Category {payload["name"]} already exists', 
@@ -46,4 +46,14 @@ def update_category(id, payload):
     image_url = payload.get('image_url', category_with_id[0]['image_url'])
 
     query = db.read_sql(base_path+'update-category.sql')
-    return db.execute_query(query, (name, image_url, id))
+    return db.execute_query(query, (name, image_url, id,))
+
+
+def delete_category(id):
+    # verify if category exists
+    category_with_id = get_category_by_id(id)
+    if (len(category_with_id) == 0):
+        raise APIException(f'Category with id {id} does not exist', 400)
+
+    query = db.read_sql(base_path+'delete-category.sql')
+    return db.execute_query(query, (id,))

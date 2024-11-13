@@ -43,6 +43,13 @@ def create_category():
 @category.route('/<id>', methods=['PUT'])
 def update_category(id):
     body = request.json
-    UrlSchema().load({ "id": id })
+    UrlSchema().load({"id": id})
+    CreateCategorySchema().load(body, partial=True)
     categories.update_category(id, body)
+    return {}
+
+@category.route('/<id>', methods=['DELETE'])
+def delete_category(id):
+    UrlSchema().load({"id": id})
+    categories.delete_category(id)
     return {}

@@ -9,6 +9,7 @@ class DbComponent():
         with self.connection as cnn:
             with cnn.cursor() as cursor:
                 cursor.execute(query, params)
+                cnn.commit()
                 return self.__parse_query_result(cursor)
     
 
