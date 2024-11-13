@@ -14,6 +14,6 @@ INNER JOIN
 ON 
     p.category=c.category
 WHERE   
-    p.category=%s
-LIMIT %s 
-OFFSET %s;
+    p.category=%s::integer
+LIMIT %s::integer
+OFFSET %s::integer;

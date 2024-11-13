@@ -5,6 +5,6 @@ SELECT
 FROM
     category
 WHERE
-    "name" = %s
+    "name" = %s::varchar
 AND
-    category <> %s;
+    category <> %s::integer;

@@ -5,4 +5,4 @@ SELECT
 FROM
     category
 WHERE
-    category = %s;
+    category = %s::integer;

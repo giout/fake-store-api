@@ -19,5 +19,5 @@ AND
     (p.price > COALESCE(%s, p.price - 1)) -- price_min
 AND 
     (p.price < COALESCE(%s, p.price + 1)) -- price_max 
-LIMIT %s
-OFFSET %s;
+LIMIT %s::integer
+OFFSET %s::integer;

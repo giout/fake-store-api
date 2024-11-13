@@ -5,5 +5,5 @@ SELECT
     image_url
 FROM
     "user"
-LIMIT %s::integer
-OFFSET %s::integer;
+WHERE
+    "user" = %s::integer;

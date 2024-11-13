@@ -1,4 +1,4 @@
 DELETE FROM
     product
 WHERE
-    product=%s;
+    product=%s::integer;

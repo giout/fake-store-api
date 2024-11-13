@@ -3,6 +3,6 @@ SELECT
 FROM 
     product
 WHERE
-    "name" = %s
+    "name" = %s::varchar
 AND
-    product <> %s;
+    product <> %s::integer;

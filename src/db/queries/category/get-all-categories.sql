@@ -4,5 +4,5 @@ SELECT
     image_url
 FROM
     category
-LIMIT %s
-OFFSET %s;
+LIMIT %s::integer
+OFFSET %s::integer;

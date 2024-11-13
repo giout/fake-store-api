@@ -3,4 +3,4 @@ SELECT
 FROM 
     product
 WHERE
-    "name"=%s;
+    "name"=%s::varchar;

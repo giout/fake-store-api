@@ -5,4 +5,4 @@ SELECT
 FROM
     category
 WHERE
-    "name" = %s;
+    "name" = %s::varchar;

@@ -14,4 +14,4 @@ INNER JOIN
 ON 
     p.category=c.category
 WHERE 
-    p.product=%s;
+    p.product=%s::integer;
