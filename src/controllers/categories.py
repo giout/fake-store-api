@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, Response
 from services import categories
 from utils import param_type
 from dto import UrlSchema, CreateCategorySchema
@@ -39,3 +39,10 @@ def create_category():
     return {
         "data": category
     }
+
+@category.route('/<id>', methods=['PUT'])
+def update_category(id):
+    body = request.json
+    UrlSchema().load({ "id": id })
+    categories.update_category(id, body)
+    return {}
