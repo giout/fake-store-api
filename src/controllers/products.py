@@ -2,13 +2,12 @@ from flask import Blueprint, request, jsonify
 from services import products
 from dto import UrlSchema, CreateProductSchema
 
-# /categories
+# /products
 product = Blueprint('product', __name__, url_prefix='/products')
 
 # GET /products
 @product.route('/')
 def get_all_products():
-    #query parameters
     data = products.get_all_products(
         price_min=request.args.get('price_min', default=None, type=float),
         price_max=request.args.get('price_max', default=None, type=float),
