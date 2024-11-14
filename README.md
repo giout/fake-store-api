@@ -37,12 +37,12 @@ $ pip install -r requirements.txt
 
 ### Run server
 ```sh
-$ flask --app src/app run
+$ python src/app.py
 ```
 
 ### Run server in debug mode
 ```sh
-$ flask --app src/app run --debug
+$ python src/app.py --debug
 ```
 
 ## Environment variables
