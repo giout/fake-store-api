@@ -47,6 +47,10 @@ def update_user(id, payload):
     if (len(users_found) > 0):
         raise APIException(f'Email {email} already exists', 400)
 
+    if 'password' in payload:
+        query = db.read_sql(base_path+'update-password.sql')
+        db.execute_query(query, (hasher.hash(payload['password']),id,))
+
     query = db.read_sql(base_path+'update-user.sql')
     return db.execute_query(query, (
         name,
@@ -54,3 +58,13 @@ def update_user(id, payload):
         image_url,
         id
     ))
+
+
+def delete_user(id):
+    # verify if user exists
+    user_with_id = get_user_by_id(id)
+    if (len(user_with_id) == 0):
+        raise APIException(f'User with id {id} does not exist', 404)
+    
+    query = db.read_sql(base_path+'delete-user.sql')
+    return db.execute_query(query, (id,))

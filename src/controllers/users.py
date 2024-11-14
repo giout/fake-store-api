@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from services import users
-from dto import UrlSchema, CreateUserSchema, UpdateUserSchema
+from dto import UrlSchema, CreateUserSchema
 
 # /user
 user = Blueprint('user', __name__, url_prefix='/users')
@@ -39,6 +39,14 @@ def create_user():
 @user.route('/<id>', methods=['PUT'])
 def update_user(id):
     UrlSchema().load({"id": id}) # validate id
-    UpdateUserSchema().load(request.json, partial=True) # validate body
+    CreateUserSchema().load(request.json, partial=True) # validate body
     users.update_user(id, request.json)
+    return jsonify({})
+
+
+# DELETE /users/<id>
+@user.route('/<id>', methods=['DELETE'])
+def delete_user(id):
+    UrlSchema().load({"id": id}) # validate id
+    users.delete_user(id)
     return jsonify({})
