@@ -2,7 +2,8 @@ SELECT
     "user" AS id,
     "name",
     email,
-    image_url
+    image_url,
+    "password"
 FROM
     "user"
 WHERE

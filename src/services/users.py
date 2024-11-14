@@ -14,11 +14,15 @@ def get_user_by_id(id):
     return db.execute_query(query, (id,))
 
 
+def get_user_by_email(email):
+    query = db.read_sql(base_path+'get-user-by-email.sql')
+    return db.execute_query(query, (email,))
+        
+
 def create_user(payload):
     # verify email does not exist
-    query = db.read_sql(base_path+'get-user-by-email.sql')
-    users_found = db.execute_query(query, (payload['email'],))
-    if len(users_found) > 0:
+    user_with_email = get_user_by_email(payload['email'])
+    if len(user_with_email) > 0:
         raise APIException('Email already exists', 400)
 
     query = db.read_sql(base_path+'create-user.sql')
@@ -68,3 +72,14 @@ def delete_user(id):
     
     query = db.read_sql(base_path+'delete-user.sql')
     return db.execute_query(query, (id,))
+
+
+def login(payload):
+    # verify email exists
+    user_with_email = get_user_by_email(payload['email'])
+    if len(user_with_email) <= 0:
+        raise APIException('User does not exist', 400)
+    # verify password is right
+    if not hasher.verify(payload['password'], user_with_email[0]['password']):
+        raise APIException('Password is incorrect', 400)
+    return user_with_email[0]

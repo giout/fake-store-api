@@ -6,3 +6,4 @@ load_dotenv(find_dotenv())
 
 PORT=env['PORT']
 DB_URI=env['DB_URI']
+JWT_SECRET=env['JWT_SECRET']

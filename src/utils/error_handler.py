@@ -10,5 +10,7 @@ def api_error_handler(error: Exception):
         return jsonify({"message": error.message}), error.status_code
     if isinstance(error, exceptions.NotFound):
         return jsonify({"message": 'Endpoint not found' }), 404
+    if isinstance(error, exceptions.MethodNotAllowed):
+        return jsonify({"message": 'This HTTP method is not allowed for the requested URL' }), 400
     else:
         return jsonify({"message": error.args}), 500
