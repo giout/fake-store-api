@@ -22,4 +22,4 @@ app.register_blueprint(auth) # /auth
 app.register_error_handler(Exception, api_error_handler)
 
 if __name__ == '__main__':
-    app.run(debug=True, port=PORT)
+    app.run(debug=True, port=int(PORT))
