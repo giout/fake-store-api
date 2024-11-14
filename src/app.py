@@ -3,11 +3,13 @@ from config import PORT, JWT_SECRET
 from controllers import category, product, user, auth
 from utils import api_error_handler
 from flask_jwt_extended import JWTManager
+import datetime
 
 app = Flask(__name__)
 
 # jwt settings
 app.config['JWT_SECRET_KEY'] = JWT_SECRET
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(hours=20)
 jwt = JWTManager(app)
 
 # set routes
