@@ -5,3 +5,13 @@ class CreateUserSchema(Schema):
     image_url = fields.String(required=True)
     email = fields.Email(required=True)
     password = fields.String(required=True)
+
+
+class UpdateUserSchema(Schema):
+    name = fields.String(required=True)
+    image_url = fields.String(required=True)
+    email = fields.Email(required=True)
+
+
+class UpdatePasswordSchema(Schema):
+    password = fields.String(required=True)
