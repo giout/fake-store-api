@@ -64,4 +64,8 @@ Environment variables should be added to a .env in the root directory, following
 <td>PORT</td>
 <td>Server listening port</td>
 </tr>
+<tr>
+<td>HOST</td>
+<td>Server host</td>
+</tr>
 </table>
